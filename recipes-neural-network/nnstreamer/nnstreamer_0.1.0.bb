@@ -18,4 +18,3 @@ inherit meson
 
 FILES_${PN} += "${libdir}/*.so \
 	${libdir}/gstreamer-1.0/*.so"
-"
