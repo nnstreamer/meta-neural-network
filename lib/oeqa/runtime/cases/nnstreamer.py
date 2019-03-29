@@ -36,6 +36,7 @@ class NNStreamerTest(OERuntimeTestCase):
         cmd = 'export UNITTEST_DIR=/usr/lib/nnstreamer/unittest; '\
               'export CUSTOMLIB_DIR=/usr/lib/nnstreamer/customfilters; '\
               'export LD_LIBRARY_PATH=/usr/lib/gstreamer-1.0:$LD_LIBRARY_PATH; ' \
+              'alias python=pyton3; '\
               'cd ${UNITTEST_DIR}/tests; '\
               'ssat'
         (status, output) = self.target.run(cmd)
