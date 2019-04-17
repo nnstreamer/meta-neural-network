@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=a6f89e2100d9b6cdffcea4f398e37343 \
                     file://tizen-api/LICENSE.Apache-2.0;md5=d3ae35440dea13087a83d59100346a44 \
                     file://debian/copyright;md5=0462ef8fa89a1f53f2e65e74940519ef"
 
-DEPENDS = "glib-2.0 gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gtest ssat"
+DEPENDS = "glib-2.0 gstreamer1.0 gstreamer1.0-plugins-base gtest"
 
 SRC_URI = "git://github.com/nnsuite/nnstreamer.git;protocol=https"
 
@@ -17,10 +17,10 @@ S = "${WORKDIR}/git"
 
 inherit meson pkgconfig
 
-EXTRA_OEMESON += "-Denable-test=${INSTALL_TEST} \
-	          -Dinstall-test=${INSTALL_TEST} \
+EXTRA_OEMESON += "-Denable-test=true \
+	          -Dinstall-test=true \
 		  -Denable-tensorflow-mem-optmz=false \
-		  -Dinstall-example=${INSTALL_TEST} \
+		  -Dinstall-example=true \
 		  -Ddisable-audio-support=false \
 		  "
 
@@ -32,10 +32,18 @@ PACKAGECONFIG[tensorflow-lite] = "-Denable-tensorflow-lite=true,-Denable-tensorf
 
 FILES_${PN} += "${libdir}/*.so \
 	    ${libdir}/gstreamer-1.0/*.so \
-	    ${libdir}/nnstreamer/* \
+	    ${libdir}/nnstreamer/filters/* \
+	    ${libdir}/nnstreamer/decoders/* \
 	    ${sysconfdir}/nnstreamer.ini "
 
-RDEPENDS_${PN} = "python3-numpy"
+PACKAGES =+ "${PN}-unittest"
+
+FILES_${PN}-unittest += "${libdir}/nnstreamer/customfilters/* \
+		     ${libdir}/nnstreamer/unittest/* "
+
+RDEPENDS_${PN}-unittest = "nnstreamer gstreamer1.0-plugins-good gtest python3-numpy python3-math ssat"
+
+RDEPENDS_${PN} = "glib-2.0 gstreamer1.0 gstreamer1.0-plugins-base"
 
 FILES_${PN}-dev += "${includedir}/nnstreamer/* \
 		${libdir}/*.a \
