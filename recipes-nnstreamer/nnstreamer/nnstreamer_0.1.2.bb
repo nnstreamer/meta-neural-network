@@ -30,6 +30,11 @@ PACKAGECONFIG[opencv] = "-Denable-opencv-test=true,-Denable-opencv-test=false,op
 PACKAGECONFIG[tensorflow] = "-Denable-tensorflow=true,-Denable-tensorflow=false,tensorflow"
 PACKAGECONFIG[tensorflow-lite] = "-Denable-tensorflow-lite=true,-Denable-tensorflow-lite=false,tensorflow-lite"
 
+do_install_append() {
+    (cd ${D}/${libdir}; ln -s ./gstreamer-1.0/libnnstreamer.so)
+}
+INSANE_SKIP_${PN} += "dev-so"
+
 FILES_${PN} += "${libdir}/*.so \
 	    ${libdir}/gstreamer-1.0/*.so \
 	    ${libdir}/nnstreamer/filters/* \
