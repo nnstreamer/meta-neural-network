@@ -9,3 +9,7 @@ This layer provides OFFICIAL support for [NNStreamer](https://github.com/nnsuite
 - branch: master
 - revision: HEAD
 
+- URI: https://github.com/openembedded/meta-openembedded.git
+- layers: meta-oe
+- branch: master
+- revision: HEAD
