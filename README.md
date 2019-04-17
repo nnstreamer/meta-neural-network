@@ -9,11 +9,3 @@ This layer provides OFFICIAL support for [NNStreamer](https://github.com/nnsuite
 - branch: master
 - revision: HEAD
 
-- URI: https://github.com/superna9999/meta-meson
-- branch: master
-- revision: HEAD
-
-- URI: git://github.com/OSSystems/meta-gstreamer1.0
-- branch: master
-- revision: HEAD
-
