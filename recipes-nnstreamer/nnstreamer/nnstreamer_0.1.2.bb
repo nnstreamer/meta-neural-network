@@ -42,6 +42,12 @@ do_install_append() {
 }
 INSANE_SKIP_${PN} += "dev-so"
 
+PACKAGE_BEFORE_PN += "${PN}-unittest"
+FILES_${PN}-unittest += "\
+                    ${libdir}/nnstreamer/customfilters/* \
+                    ${libdir}/nnstreamer/unittest/* \
+                    "
+
 FILES_${PN} += "\
             ${libdir}/*.so \
             ${libdir}/gstreamer-1.0/*.so \
@@ -50,13 +56,6 @@ FILES_${PN} += "\
             ${libdir}/nnstreamer/decoders/* \
             ${sysconfdir}/nnstreamer.ini \
             "
-
-PACKAGES =+ "${PN}-unittest"
-
-FILES_${PN}-unittest += "\
-                    ${libdir}/nnstreamer/customfilters/* \
-                    ${libdir}/nnstreamer/unittest/* \
-                    "
 
 RDEPENDS_${PN}-unittest = "nnstreamer gstreamer1.0-plugins-good gtest python3-numpy python3-math ssat"
 
