@@ -46,17 +46,17 @@ FILES_${PN} += "\
             ${libdir}/*.so \
             ${libdir}/gstreamer-1.0/*.so \
             ${libdir}/nnstreamer/* \
-            ${libdir}/nnstreamer/filters/* \
             ${libdir}/nnstreamer/decoders/* \
             ${sysconfdir}/nnstreamer.ini \
             "
 
-PACKAGES =+ "${PN}-unittest"
+PACKAGES =+ "${PN}-unittest ${PN}-tensorflow-lite"
 
 FILES_${PN}-unittest += "\
                     ${libdir}/nnstreamer/customfilters/* \
                     ${libdir}/nnstreamer/unittest/* \
                     "
+FILES_${PN}-tensorflow-lite += "${libdir}/nnstreamer/filters/libnnstreamer_filter_tensorflow-lite.so"
 
 RDEPENDS_${PN}-unittest = "nnstreamer gstreamer1.0-plugins-good gtest python3-numpy python3-math ssat"
 
