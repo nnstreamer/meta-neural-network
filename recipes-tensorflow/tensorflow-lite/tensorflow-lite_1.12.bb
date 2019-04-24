@@ -121,3 +121,4 @@ do_install() {
     install -m 0644 ${S}/tensorflow/contrib/lite/tools/make/downloads/flatbuffers/include/flatbuffers/*.h ${D}${includedir}/flatbuffers/
 }
 
+ALLOW_EMPTY_${PN} = "1"
