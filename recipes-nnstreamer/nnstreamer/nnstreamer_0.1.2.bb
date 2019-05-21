@@ -24,6 +24,7 @@ EXTRA_OEMESON += "\
                 -Dinstall-test=true \
                 -Denable-tensorflow-lite=true \
                 -Denable-tensorflow-mem-optmz=false \
+                -Denable-pytorch=false \
                 -Dinstall-example=true \
                 -Ddisable-audio-support=false \
                 "
