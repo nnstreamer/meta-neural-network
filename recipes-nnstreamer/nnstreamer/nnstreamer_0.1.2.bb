@@ -36,7 +36,6 @@ PACKAGECONFIG ??= "\
                 ${@bb.utils.contains('DISTRO_FEATURES','tensorflow','tensorflow','',d)} \
                 "
 
-PACKAGECONFIG[opencv] = "-Denable-opencv-test=true,-Denable-opencv-test=false,opencv"
 PACKAGECONFIG[tensorflow] = "-Denable-tensorflow=true,-Denable-tensorflow=false,tensorflow"
 
 do_install_append() {
