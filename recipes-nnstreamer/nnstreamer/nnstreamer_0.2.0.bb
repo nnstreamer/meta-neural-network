@@ -14,7 +14,7 @@ SRC_URI = "\
         file://0001-Test-Common-Remove-a-unit-test-for-custom-configurat.patch \
         "
 
-PV = "0.1.2+git${SRCPV}"
+PV = "0.2.0+git${SRCPV}"
 SRCREV = "${AUTOREV}"
 
 S = "${WORKDIR}/git"
@@ -27,6 +27,7 @@ EXTRA_OEMESON += "\
                 -Denable-tensorflow-lite=true \
                 -Denable-tensorflow-mem-optmz=false \
                 -Denable-pytorch=false \
+                -Denable-caffe2=false \
                 -Dinstall-example=true \
                 -Ddisable-audio-support=false \
                 "
