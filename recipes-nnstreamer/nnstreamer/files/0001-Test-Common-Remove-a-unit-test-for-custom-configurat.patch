@@ -1,6 +1,6 @@
-From 7332ab1b029ade5e554e1724fdfec772a80906d5 Mon Sep 17 00:00:00 2001
+From ba7abf794ca9817b6cb2b2d9f7df0370d2b9bd83 Mon Sep 17 00:00:00 2001
 From: Wook Song <wook16.song@samsung.com>
-Date: Wed, 5 Jun 2019 13:31:32 +0900
+Date: Thu, 4 Jul 2019 14:06:10 +0900
 Subject: [PATCH 1/1] [Test/Common] Remove a unit test for custom configuration
 
 This patch removes a unit test for custom configuration file provided by
@@ -13,10 +13,10 @@ Signed-off-by: Wook Song <wook16.song@samsung.com>
  1 file changed, 132 deletions(-)
 
 diff --git a/tests/common/unittest_common.cpp b/tests/common/unittest_common.cpp
-index 9c40cef..6914840 100644
+index 06107f2..1a9a181 100644
 --- a/tests/common/unittest_common.cpp
 +++ b/tests/common/unittest_common.cpp
-@@ -480,138 +480,6 @@ static gboolean check_custom_conf (const gchar *group, const gchar *key, const g
+@@ -481,138 +481,6 @@ static gboolean check_custom_conf (const gchar *group, const gchar *key, const g
  }
  
  /**
@@ -41,10 +41,10 @@ index 9c40cef..6914840 100644
 -  const gchar *base_confenv;
 -  gchar *confenv;
 -
+-  ASSERT_TRUE (fp != NULL);
+-
 -  base_confenv = g_getenv ("NNSTREAMER_CONF");
 -  confenv = (base_confenv != NULL) ? g_strdup (base_confenv) : NULL;
--
--  ASSERT_TRUE (fp != NULL);
 -
 -  g_fprintf (fp, "[common]\n");
 -  g_fprintf (fp, "enable_envvar=True\n");
