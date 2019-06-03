@@ -4,7 +4,6 @@ SECTION = "AI"
 LICENSE = "LGPLv2+"
 LIC_FILES_CHKSUM = "\
                 file://LICENSE;md5=a6f89e2100d9b6cdffcea4f398e37343 \
-                file://tizen-api/LICENSE.Apache-2.0;md5=d3ae35440dea13087a83d59100346a44 \
                 file://debian/copyright;md5=0462ef8fa89a1f53f2e65e74940519ef \
                 "
 
