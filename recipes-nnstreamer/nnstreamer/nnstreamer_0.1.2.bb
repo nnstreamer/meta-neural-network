@@ -9,7 +9,10 @@ LIC_FILES_CHKSUM = "\
 
 DEPENDS = "glib-2.0 gstreamer1.0 gstreamer1.0-plugins-base gtest tensorflow-lite"
 
-SRC_URI = "git://github.com/nnsuite/nnstreamer.git;protocol=https"
+SRC_URI = "\
+        git://github.com/nnsuite/nnstreamer.git;protocol=https \
+        file://0001-Test-Common-Remove-a-unit-test-for-custom-configurat.patch \
+        "
 
 PV = "0.1.2+git${SRCPV}"
 SRCREV = "${AUTOREV}"
