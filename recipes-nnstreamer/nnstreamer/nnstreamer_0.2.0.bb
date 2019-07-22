@@ -63,7 +63,7 @@ RDEPENDS_${PN}-unittest = "nnstreamer gstreamer1.0-plugins-good gtest python3-nu
 
 RDEPENDS_${PN} = "glib-2.0 gstreamer1.0 gstreamer1.0-plugins-base"
 
-FILES_${PN}-dev += "\
+FILES_${PN}-dev = "\
                 ${includedir}/nnstreamer/* \
                 ${libdir}/*.a \
                 ${libdir}/pkgconfig/nnstreamer.pc \
