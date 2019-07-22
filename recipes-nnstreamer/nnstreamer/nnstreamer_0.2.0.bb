@@ -7,7 +7,10 @@ LIC_FILES_CHKSUM = "\
                 file://debian/copyright;md5=0462ef8fa89a1f53f2e65e74940519ef \
                 "
 
-DEPENDS = "glib-2.0 gstreamer1.0 gstreamer1.0-plugins-base gtest tensorflow-lite"
+DEPENDS = "glib-2.0 gstreamer1.0 gstreamer1.0-plugins-base gtest"
+DEPENDS += "\
+        ${@bb.utils.contains('DISTRO_FEATURES','tensorflow-lite','tensorflow-lite','',d)} \
+        "
 
 SRC_URI = "\
         git://github.com/nnsuite/nnstreamer.git;protocol=https \
@@ -24,7 +27,6 @@ inherit meson pkgconfig
 EXTRA_OEMESON += "\
                 -Denable-test=true \
                 -Dinstall-test=true \
-                -Denable-tensorflow-lite=true \
                 -Denable-tensorflow-mem-optmz=false \
                 -Denable-pytorch=false \
                 -Denable-caffe2=false \
@@ -35,9 +37,11 @@ EXTRA_OEMESON += "\
 PACKAGECONFIG ??= "\
                 ${@bb.utils.contains('DISTRO_FEATURES','opencv','opencv','',d)} \
                 ${@bb.utils.contains('DISTRO_FEATURES','tensorflow','tensorflow','',d)} \
+                ${@bb.utils.contains('DISTRO_FEATURES','tensorflow-lite','tensorflow-lite','',d)} \
                 "
 
 PACKAGECONFIG[tensorflow] = "-Denable-tensorflow=true,-Denable-tensorflow=false,tensorflow"
+PACKAGECONFIG[tensorflow-lite] = "-Denable-tensorflow-lite=true,-Denable-tensorflow-lite=false,tensorflow-lite"
 
 do_install_append() {
     (cd ${D}/${libdir}; ln -s ./gstreamer-1.0/libnnstreamer.so)
@@ -57,9 +61,17 @@ FILES_${PN}-unittest += "\
                     ${libdir}/nnstreamer/customfilters/* \
                     ${libdir}/nnstreamer/unittest/* \
                     "
-FILES_${PN}-tensorflow-lite += "${libdir}/nnstreamer/filters/libnnstreamer_filter_tensorflow-lite.so"
+
+FILES_${PN}-tensorflow-lite += "\
+                            ${@bb.utils.contains('DISTRO_FEATURES','tensorflow-lite', \
+                               '${libdir}/nnstreamer/filters/libnnstreamer_filter_tensorflow-lite.so','',d)} \
+                            "
 
 RDEPENDS_${PN}-unittest = "nnstreamer gstreamer1.0-plugins-good gtest python3-numpy python3-math ssat python-math python-numpy"
+RDEPENDS_${PN}-unittest += "\
+                        ${@bb.utils.contains('DISTRO_FEATURES','tensorflow-lite', \
+                            '${PN}-tensorflow-lite','',d)} \
+                        "
 
 RDEPENDS_${PN} = "glib-2.0 gstreamer1.0 gstreamer1.0-plugins-base"
 
