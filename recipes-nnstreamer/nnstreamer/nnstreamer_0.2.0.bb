@@ -11,6 +11,7 @@ DEPENDS = "orc-native glib-2.0 gstreamer1.0 gstreamer1.0-plugins-base gtest"
 DEPENDS += "\
         ${@bb.utils.contains('DISTRO_FEATURES','tensorflow-lite','tensorflow-lite','',d)} \
         "
+DEPENDS += "python python-numpy python3 python3-numpy"
 
 SRC_URI = "\
         git://github.com/nnsuite/nnstreamer.git;protocol=https \
@@ -67,13 +68,16 @@ FILES_${PN}-tensorflow-lite += "\
                                '${libdir}/nnstreamer/filters/libnnstreamer_filter_tensorflow-lite.so','',d)} \
                             "
 
-RDEPENDS_${PN}-unittest = "nnstreamer gstreamer1.0-plugins-good python3-numpy python3-math ssat python-math python-numpy"
+RDEPENDS_${PN}-unittest = "nnstreamer gstreamer1.0-plugins-good ssat"
+RDEPENDS_${PN}-unittest += "python python-numpy python-numbers python-unittest python-misc"
 RDEPENDS_${PN}-unittest += "\
                         ${@bb.utils.contains('DISTRO_FEATURES','tensorflow-lite', \
                             '${PN}-tensorflow-lite','',d)} \
                         "
 
 RDEPENDS_${PN} = "glib-2.0 gstreamer1.0 gstreamer1.0-plugins-base"
+RDEPENDS_${PN} += "python python-numpy python-math"
+RDEPENDS_${PN} += "python3 python3-numpy python3-math"
 
 FILES_${PN}-dev = "\
                 ${includedir}/nnstreamer/* \
