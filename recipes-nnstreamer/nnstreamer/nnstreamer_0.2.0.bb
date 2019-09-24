@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "\
                 file://debian/copyright;md5=0462ef8fa89a1f53f2e65e74940519ef \
                 "
 
-DEPENDS = "glib-2.0 gstreamer1.0 gstreamer1.0-plugins-base gtest"
+DEPENDS = "orc-native glib-2.0 gstreamer1.0 gstreamer1.0-plugins-base gtest"
 DEPENDS += "\
         ${@bb.utils.contains('DISTRO_FEATURES','tensorflow-lite','tensorflow-lite','',d)} \
         "
@@ -25,7 +25,7 @@ S = "${WORKDIR}/git"
 inherit meson pkgconfig
 
 EXTRA_OEMESON += "\
-                -Denable-orc=false \
+                -Denable-orc=true \
                 -Denable-test=true \
                 -Dinstall-test=true \
                 -Denable-pytorch=false \
