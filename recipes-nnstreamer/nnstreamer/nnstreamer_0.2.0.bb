@@ -25,9 +25,9 @@ S = "${WORKDIR}/git"
 inherit meson pkgconfig
 
 EXTRA_OEMESON += "\
+                -Denable-orc=false \
                 -Denable-test=true \
                 -Dinstall-test=true \
-                -Denable-tensorflow-mem-optmz=false \
                 -Denable-pytorch=false \
                 -Denable-caffe2=false \
                 -Dinstall-example=true \
@@ -67,7 +67,7 @@ FILES_${PN}-tensorflow-lite += "\
                                '${libdir}/nnstreamer/filters/libnnstreamer_filter_tensorflow-lite.so','',d)} \
                             "
 
-RDEPENDS_${PN}-unittest = "nnstreamer gstreamer1.0-plugins-good gtest python3-numpy python3-math ssat python-math python-numpy"
+RDEPENDS_${PN}-unittest = "nnstreamer gstreamer1.0-plugins-good python3-numpy python3-math ssat python-math python-numpy"
 RDEPENDS_${PN}-unittest += "\
                         ${@bb.utils.contains('DISTRO_FEATURES','tensorflow-lite', \
                             '${PN}-tensorflow-lite','',d)} \

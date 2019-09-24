@@ -1,6 +1,6 @@
-From ba7abf794ca9817b6cb2b2d9f7df0370d2b9bd83 Mon Sep 17 00:00:00 2001
+From 17f17c3b0dc9b7dfd131a70a8ae34efeef7bcff0 Mon Sep 17 00:00:00 2001
 From: Wook Song <wook16.song@samsung.com>
-Date: Thu, 4 Jul 2019 14:06:10 +0900
+Date: Mon, 23 Sep 2019 09:41:15 +0900
 Subject: [PATCH 1/1] [Test/Common] Remove a unit test for custom configuration
 
 This patch removes a unit test for custom configuration file provided by
@@ -9,17 +9,29 @@ configuration file cannot be overrided using the environment variable.
 
 Signed-off-by: Wook Song <wook16.song@samsung.com>
 ---
- tests/common/unittest_common.cpp | 132 ---------------------------------------
- 1 file changed, 132 deletions(-)
+ tests/common/unittest_common.cpp | 149 ---------------------------------------
+ 1 file changed, 149 deletions(-)
 
 diff --git a/tests/common/unittest_common.cpp b/tests/common/unittest_common.cpp
-index 06107f2..1a9a181 100644
+index 5d00638..876cb6d 100644
 --- a/tests/common/unittest_common.cpp
 +++ b/tests/common/unittest_common.cpp
-@@ -481,138 +481,6 @@ static gboolean check_custom_conf (const gchar *group, const gchar *key, const g
+@@ -606,155 +606,6 @@ static gchar *create_null_file (const gchar *dir, const gchar *file)
  }
  
  /**
+- * @brief Check string custom conf
+- */
+-static gboolean check_custom_conf (const gchar *group, const gchar *key, const gchar *expected)
+-{
+-  gchar *str = nnsconf_get_custom_value_string (group, key);
+-  gboolean ret = (0 == g_strcmp0 (str, expected));
+-
+-  g_free (str);
+-  return ret;
+-}
+-
+-/**
 - * @brief Test custom configurations
 - */
 -TEST (conf_custom, env_str_01)
@@ -34,7 +46,6 @@ index 06107f2..1a9a181 100644
 -  EXPECT_EQ (g_mkdir (dirf, 0755), 0);
 -  EXPECT_EQ (g_mkdir (dircf, 0755), 0);
 -  EXPECT_EQ (g_mkdir (dird, 0755), 0);
--
 -
 -  FILE *fp = g_fopen (filename, "w");
 -  const gchar *fn;
@@ -71,12 +82,18 @@ index 06107f2..1a9a181 100644
 -
 -  fclose (fp);
 -
--  gchar *f1 = create_null_file (dirf, "libnnstreamer_filter_fantastic.so");
--  gchar *f2 = create_null_file (dirf, "libnnstreamer_filter_neuralnetwork.so");
--  gchar *f3 = create_null_file (dird, "libnnstreamer_decoder_omg.so");
--  gchar *f4 = create_null_file (dird, "libnnstreamer_decoder_wthisgoingon.so");
--  gchar *f5 = create_null_file (dircf, "custom_mechanism.so");
--  gchar *f6 = create_null_file (dircf, "fastfaster.so");
+-  gchar *f1 = create_null_file (dirf, "libnnstreamer_filter_fantastic"
+-      NNSTREAMER_SO_FILE_EXTENSION);
+-  gchar *f2 = create_null_file (dirf, "libnnstreamer_filter_neuralnetwork"
+-      NNSTREAMER_SO_FILE_EXTENSION);
+-  gchar *f3 = create_null_file (dird, "libnnstreamer_decoder_omg"
+-      NNSTREAMER_SO_FILE_EXTENSION);
+-  gchar *f4 = create_null_file (dird, "libnnstreamer_decoder_wthisgoingon"
+-      NNSTREAMER_SO_FILE_EXTENSION);
+-  gchar *f5 = create_null_file (dircf, "custom_mechanism"
+-      NNSTREAMER_SO_FILE_EXTENSION);
+-  gchar *f6 = create_null_file (dircf, "fastfaster"
+-      NNSTREAMER_SO_FILE_EXTENSION);
 -
 -  EXPECT_TRUE (FALSE != g_setenv ("NNSTREAMER_CONF", filename, TRUE));
 -  EXPECT_TRUE (nnsconf_loadconf (TRUE) == TRUE);
