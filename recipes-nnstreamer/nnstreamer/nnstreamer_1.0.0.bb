@@ -18,8 +18,8 @@ SRC_URI = "\
         file://0001-Test-Common-Remove-a-unit-test-for-custom-configurat.patch \
         "
 
-PV = "0.2.0+git${SRCPV}"
-SRCREV = "${AUTOREV}"
+PV = "1.0.0+git${SRCPV}"
+SRCREV = "720ce6ec7f68325dfd1e6c2ded6024e805f3eff2"
 
 S = "${WORKDIR}/git"
 
