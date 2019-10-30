@@ -14,3 +14,7 @@ This layer provides OFFICIAL support for [NNStreamer](https://github.com/nnsuite
 - layers: meta-oe
 - branch: master
 - revision: HEAD
+
+## Disclaimer
+
+This meta, "meta-neural-network", is a collection of meta data of set of software packages. Be aware that this meta cannot dictate the licenses of such packages. Packages included in this meta have their own licenses.
