@@ -205,5 +205,5 @@
 
       This meta, "meta-neural-network", is a collection of meta data of
       set of software packages. Be aware that this meta cannot dictate
-      the licenses of such packages. Licenses of packages included in
-      this meta have their own licenses.
+      the licenses of such packages. Packages in this meta have
+      their own licenses.
