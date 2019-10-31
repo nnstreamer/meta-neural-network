@@ -13,3 +13,7 @@ This layer provides OFFICIAL support for [NNStreamer](https://github.com/nnsuite
 - layers: meta-oe
 - branch: master
 - revision: HEAD
+
+- URI: https://github.com/wooksong/meta-ros.git
+- branch: support-nnstremer-ros
+- revision: 8fbb949c9b7dd9fe5ab0c95e6945906b02d0bf6a
