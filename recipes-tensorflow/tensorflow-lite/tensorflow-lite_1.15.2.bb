@@ -85,22 +85,15 @@ do_compile() {
 do_install() {
     install -d ${D}${libdir}
     install -m 0644 ${S}/tensorflow/lite/tools/make/gen/${TARGET_OS}_${TUNE_ARCH}/lib/libtensorflow-lite.a ${D}${libdir}/
-    install -d ${D}${includedir}/tensorflow/lite
-    install -m 0644 ${S}/tensorflow/lite/*.h ${D}${includedir}/tensorflow/lite/
-    install -d ${D}${includedir}/tensorflow/lite/c
-    install -m 0644 ${S}/tensorflow/lite/c/*.h ${D}${includedir}/tensorflow/lite/c/
-    install -d ${D}${includedir}/tensorflow/lite/core/api
-    install -m 0644 ${S}/tensorflow/lite/core/api/*.h ${D}${includedir}/tensorflow/lite/core/api/
-    install -d ${D}${includedir}/tensorflow/lite/kernels
-    install -m 0644 ${S}/tensorflow/lite/kernels/*.h ${D}${includedir}/tensorflow/lite/kernels/
-    install -d ${D}${includedir}/tensorflow/lite/profiling
-    install -m 0644 ${S}/tensorflow/lite/profiling/*.h ${D}${includedir}/tensorflow/lite/profiling/
-    install -d ${D}${includedir}/tensorflow/lite/schema
-    install -m 0644 ${S}/tensorflow/lite/schema/*.h ${D}${includedir}/tensorflow/lite/schema/
-    install -d ${D}${includedir}/tensorflow/lite/tools
-    install -m 0644 ${S}/tensorflow/lite/tools/*.h ${D}${includedir}/tensorflow/lite/tools/
     install -d ${D}${libdir}/pkgconfig
     install -m 0644 ${WORKDIR}/tensorflow-lite.pc.in ${D}${libdir}/pkgconfig/tensorflow-lite.pc
+
+    cd "${S}/tensorflow/lite"
+    for file in $(find . -name '*.h'); do
+        install -d "${D}${includedir}/tensorflow/lite/$(dirname -- "${file}")"
+        install -m 0644 "${file}" "${D}${includedir}/tensorflow/lite/${file}"
+    done
+
     sed -i 's:@version@:${PV}:g
         s:@libdir@:${libdir}:g
         s:@includedir@:${includedir}:g' ${D}${libdir}/pkgconfig/tensorflow-lite.pc
