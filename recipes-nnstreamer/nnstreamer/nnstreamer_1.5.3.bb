@@ -11,28 +11,24 @@ DEPENDS = "orc-native glib-2.0 gstreamer1.0 gstreamer1.0-plugins-base gtest"
 DEPENDS += "\
         ${@bb.utils.contains('DISTRO_FEATURES','tensorflow-lite','tensorflow-lite','',d)} \
         "
-DEPENDS += "python python-numpy python3 python3-numpy"
+DEPENDS += "python3 python3-numpy"
 
 SRC_URI = "\
         git://github.com/nnsuite/nnstreamer.git;protocol=https \
         file://0001-Test-Common-Remove-a-unit-test-for-custom-configurat.patch \
         "
 
-PV = "1.0.0+git${SRCPV}"
-SRCREV = "720ce6ec7f68325dfd1e6c2ded6024e805f3eff2"
+PV = "1.5.3+git${SRCPV}"
+SRCREV = "830680015e45b66bd4d0df04861ba38171257b2c"
 
 S = "${WORKDIR}/git"
 
 inherit meson pkgconfig
 
 EXTRA_OEMESON += "\
-                -Denable-orc=true \
                 -Denable-test=true \
                 -Dinstall-test=true \
-                -Denable-pytorch=false \
-                -Denable-caffe2=false \
                 -Dinstall-example=true \
-                -Ddisable-audio-support=false \
                 "
 
 PACKAGECONFIG ??= "\
@@ -40,9 +36,6 @@ PACKAGECONFIG ??= "\
                 ${@bb.utils.contains('DISTRO_FEATURES','tensorflow','tensorflow','',d)} \
                 ${@bb.utils.contains('DISTRO_FEATURES','tensorflow-lite','tensorflow-lite','',d)} \
                 "
-
-PACKAGECONFIG[tensorflow] = "-Denable-tensorflow=true,-Denable-tensorflow=false,tensorflow"
-PACKAGECONFIG[tensorflow-lite] = "-Denable-tensorflow-lite=true,-Denable-tensorflow-lite=false,tensorflow-lite"
 
 do_install_append() {
     (cd ${D}/${libdir}; ln -s ./gstreamer-1.0/libnnstreamer.so)
@@ -69,18 +62,17 @@ FILES_${PN}-tensorflow-lite += "\
                             "
 
 RDEPENDS_${PN}-unittest = "nnstreamer gstreamer1.0-plugins-good ssat"
-RDEPENDS_${PN}-unittest += "python python-numpy python-numbers python-unittest python-misc"
 RDEPENDS_${PN}-unittest += "\
                         ${@bb.utils.contains('DISTRO_FEATURES','tensorflow-lite', \
                             '${PN}-tensorflow-lite','',d)} \
                         "
 
 RDEPENDS_${PN} = "glib-2.0 gstreamer1.0 gstreamer1.0-plugins-base"
-RDEPENDS_${PN} += "python python-numpy python-math"
 RDEPENDS_${PN} += "python3 python3-numpy python3-math"
 
 FILES_${PN}-dev = "\
                 ${includedir}/nnstreamer/* \
                 ${libdir}/*.a \
                 ${libdir}/pkgconfig/nnstreamer.pc \
+                ${libdir}/pkgconfig/nnstreamer-cpp.pc \
                 "
