@@ -1,25 +1,28 @@
-From 17f17c3b0dc9b7dfd131a70a8ae34efeef7bcff0 Mon Sep 17 00:00:00 2001
+From ee2dc1fb4952597faa2b7a8eabf6dc3b5ccd96e0 Mon Sep 17 00:00:00 2001
 From: Wook Song <wook16.song@samsung.com>
-Date: Mon, 23 Sep 2019 09:41:15 +0900
+Date: Mon, 15 Jun 2020 12:59:22 +0900
 Subject: [PATCH 1/1] [Test/Common] Remove a unit test for custom configuration
 
-This patch removes a unit test for custom configuration file provided by
-the environment variable since once nnstreamer is installed the
-configuration file cannot be overrided using the environment variable.
+Since there is no way to override the location of the configuration file
+after it is installed, such types of test cases should be skipped when
+the test cases are required to be run after installation. For this reason,
+this patch removes unit test cases for the configuration file provided by
+the environment variable.
 
 Signed-off-by: Wook Song <wook16.song@samsung.com>
 ---
- tests/common/unittest_common.cpp | 149 ---------------------------------------
+ tests/common/unittest_common.cc | 149 --------------------------------
  1 file changed, 149 deletions(-)
 
-diff --git a/tests/common/unittest_common.cpp b/tests/common/unittest_common.cpp
-index 5d00638..876cb6d 100644
---- a/tests/common/unittest_common.cpp
-+++ b/tests/common/unittest_common.cpp
-@@ -606,155 +606,6 @@ static gchar *create_null_file (const gchar *dir, const gchar *file)
+diff --git a/tests/common/unittest_common.cc b/tests/common/unittest_common.cc
+index 20814c7b..00326f88 100644
+--- a/tests/common/unittest_common.cc
++++ b/tests/common/unittest_common.cc
+@@ -800,155 +800,6 @@ static gchar *create_null_file (const gchar *dir, const gchar *file)
+   return fullpath;
  }
  
- /**
+-/**
 - * @brief Check string custom conf
 - */
 -static gboolean check_custom_conf (const gchar *group, const gchar *key, const gchar *expected)
@@ -168,10 +171,9 @@ index 5d00638..876cb6d 100644
 -  g_free (f6);
 -}
 -
--/**
+ /**
   * @brief Main function for unit test.
   */
- int
 -- 
-2.7.4
+2.17.1
 
