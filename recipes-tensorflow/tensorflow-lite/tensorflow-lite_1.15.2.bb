@@ -94,6 +94,10 @@ do_install() {
         install -m 0644 "${file}" "${D}${includedir}/tensorflow/lite/${file}"
     done
 
+    # For backward compatibility with v1.09, where tf-lite was in contrib
+    mkdir -p ${D}${includedir}/tensorflow/contrib
+    cd ${D}${includedir}/tensorflow/contrib && ln -sf ../lite
+
     sed -i 's:@version@:${PV}:g
         s:@libdir@:${libdir}:g
         s:@includedir@:${includedir}:g' ${D}${libdir}/pkgconfig/tensorflow-lite.pc
