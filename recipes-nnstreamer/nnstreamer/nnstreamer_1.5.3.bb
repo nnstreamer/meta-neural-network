@@ -7,19 +7,26 @@ LIC_FILES_CHKSUM = "\
                 file://debian/copyright;md5=0462ef8fa89a1f53f2e65e74940519ef \
                 "
 
-DEPENDS = "orc-native glib-2.0 gstreamer1.0 gstreamer1.0-plugins-base gtest"
+DEPENDS = "\
+            orc-native \
+            glib-2.0 \
+            gstreamer1.0 \
+            gstreamer1.0-plugins-base \
+            python3 \
+            python3-numpy \
+            gtest \
+            "
 DEPENDS += "\
         ${@bb.utils.contains('DISTRO_FEATURES','tensorflow-lite','tensorflow-lite','',d)} \
         "
-DEPENDS += "python3 python3-numpy"
-
 SRC_URI = "\
         git://github.com/nnsuite/nnstreamer.git;protocol=https \
         file://0001-Test-Common-Remove-a-unit-test-for-custom-configurat.patch \
         "
 
 PV = "1.5.3+git${SRCPV}"
-SRCREV = "830680015e45b66bd4d0df04861ba38171257b2c"
+# After 1.6.0 is released, SRCREV will be changed as ${AUTOREV}
+SRCREV = "e772917095fa7a700127cdb90846e4e92e22eb48"
 
 S = "${WORKDIR}/git"
 
@@ -34,7 +41,6 @@ EXTRA_OEMESON += "\
 PACKAGECONFIG ??= "\
                 ${@bb.utils.contains('DISTRO_FEATURES','opencv','opencv','',d)} \
                 ${@bb.utils.contains('DISTRO_FEATURES','tensorflow','tensorflow','',d)} \
-                ${@bb.utils.contains('DISTRO_FEATURES','tensorflow-lite','tensorflow-lite','',d)} \
                 "
 
 do_install_append() {
@@ -49,7 +55,12 @@ FILES_${PN} += "\
             ${sysconfdir}/nnstreamer.ini \
             "
 
-PACKAGES =+ "${PN}-unittest ${PN}-tensorflow-lite"
+PACKAGES =+ "\
+            ${PN}-unittest \
+            ${@bb.utils.contains('DISTRO_FEATURES','tensorflow-lite', \
+                    '${PN}-tensorflow-lite', \
+                    '', d)} \
+            "
 
 FILES_${PN}-unittest += "\
                     ${libdir}/nnstreamer/customfilters/* \
@@ -57,22 +68,31 @@ FILES_${PN}-unittest += "\
                     "
 
 FILES_${PN}-tensorflow-lite += "\
-                            ${@bb.utils.contains('DISTRO_FEATURES','tensorflow-lite', \
-                               '${libdir}/nnstreamer/filters/libnnstreamer_filter_tensorflow-lite.so','',d)} \
-                            "
+                                ${@bb.utils.contains('DISTRO_FEATURES','tensorflow-lite', \
+                                    '${libdir}/nnstreamer/filters/libnnstreamer_filter_tensorflow-lite.so', \
+                                    '', d)} \
+                                "
+RPROVIDES_${PN}-tensorflow-lite = "${libdir}/nnstreamer/filters/libnnstreamer_filter_tensorflow-lite.so"
 
 RDEPENDS_${PN}-unittest = "nnstreamer gstreamer1.0-plugins-good ssat"
 RDEPENDS_${PN}-unittest += "\
-                        ${@bb.utils.contains('DISTRO_FEATURES','tensorflow-lite', \
-                            '${PN}-tensorflow-lite','',d)} \
-                        "
+                            ${@bb.utils.contains( \
+                                'DISTRO_FEATURES','tensorflow-lite', \
+                                '${libdir}/nnstreamer/filters/libnnstreamer_filter_tensorflow-lite.so', \
+                                '', d)} \
+                            "
 
-RDEPENDS_${PN} = "glib-2.0 gstreamer1.0 gstreamer1.0-plugins-base"
-RDEPENDS_${PN} += "python3 python3-numpy python3-math"
+RDEPENDS_${PN} = "\
+                glib-2.0 \
+                gstreamer1.0 \
+                gstreamer1.0-plugins-base \
+                python3 \
+                python3-numpy \
+                python3-math \
+                "
 
 FILES_${PN}-dev = "\
                 ${includedir}/nnstreamer/* \
                 ${libdir}/*.a \
-                ${libdir}/pkgconfig/nnstreamer.pc \
-                ${libdir}/pkgconfig/nnstreamer-cpp.pc \
+                ${libdir}/pkgconfig/*.pc \
                 "
