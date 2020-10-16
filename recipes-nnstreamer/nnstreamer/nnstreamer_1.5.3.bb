@@ -20,7 +20,7 @@ DEPENDS += "\
         ${@bb.utils.contains('DISTRO_FEATURES','tensorflow-lite','tensorflow-lite','',d)} \
         "
 SRC_URI = "\
-        git://github.com/nnsuite/nnstreamer.git;protocol=https \
+        git://github.com/nnstreamer/nnstreamer.git;branch=main;protocol=https \
         file://0001-Test-Common-Remove-a-unit-test-for-custom-configurat.patch \
         "
 
