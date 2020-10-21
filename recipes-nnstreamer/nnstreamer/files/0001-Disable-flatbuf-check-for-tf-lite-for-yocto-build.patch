@@ -1,0 +1,32 @@
+From 376b2082a621809ec917ff3502dc138aa70b155a Mon Sep 17 00:00:00 2001
+From: Yongjoo Ahn <yongjoo1.ahn@samsung.com>
+Date: Wed, 21 Oct 2020 15:21:23 +0900
+Subject: [PATCH] Disable flatbuf check for tf-lite for yocto build
+
+Signed-off-by: Yongjoo Ahn <yongjoo1.ahn@samsung.com>
+---
+ ext/nnstreamer/tensor_filter/meson.build | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/ext/nnstreamer/tensor_filter/meson.build b/ext/nnstreamer/tensor_filter/meson.build
+index c2274a66..7be4c161 100644
+--- a/ext/nnstreamer/tensor_filter/meson.build
++++ b/ext/nnstreamer/tensor_filter/meson.build
+@@ -100,10 +100,10 @@ if tflite_support_is_available
+     ],
+   )
+ 
+-  if not flatbuf_support_is_available
+-    flatbuf_dep = dependency('flatbuffers', required : true, \
+-        not_found_message : 'flatbuf devel package should be install to build the tensorflow lite subplugin.')
+-  endif
++  # if not flatbuf_support_is_available
++  #   flatbuf_dep = dependency('flatbuffers', required : true, \
++  #       not_found_message : 'flatbuf devel package should be install to build the tensorflow lite subplugin.')
++  # endif
+ 
+   filter_sub_tflite_sources = ['tensor_filter_tensorflow_lite.cc']
+ 
+-- 
+2.17.1
+

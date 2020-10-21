@@ -21,12 +21,11 @@ DEPENDS += "\
         "
 SRC_URI = "\
         git://github.com/nnstreamer/nnstreamer.git;branch=main;protocol=https \
-        file://0001-Test-Common-Remove-a-unit-test-for-custom-configurat.patch \
+        file://0001-Disable-flatbuf-check-for-tf-lite-for-yocto-build.patch \
         "
 
-PV = "1.5.3+git${SRCPV}"
-# After 1.6.0 is released, SRCREV will be changed as ${AUTOREV}
-SRCREV = "e772917095fa7a700127cdb90846e4e92e22eb48"
+PV = "1.7.0+git${SRCPV}"
+SRCREV = "${AUTOREV}"
 
 S = "${WORKDIR}/git"
 
@@ -35,7 +34,6 @@ inherit meson pkgconfig
 EXTRA_OEMESON += "\
                 -Denable-test=true \
                 -Dinstall-test=true \
-                -Dinstall-example=true \
                 "
 
 PACKAGECONFIG ??= "\
