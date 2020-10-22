@@ -1,4 +1,4 @@
-From f5a0c133e91a3892e86c09b1e2a428abac0b6c54 Mon Sep 17 00:00:00 2001
+From 527286b55445d676e5f9f55662976be56ee0f5a5 Mon Sep 17 00:00:00 2001
 From: Yongjoo Ahn <yongjoo1.ahn@samsung.com>
 Date: Fri, 16 Oct 2020 16:56:51 +0900
 Subject: [PATCH] Patch for yocto build
@@ -12,7 +12,7 @@ Signed-off-by: Yongjoo Ahn <yongjoo1.ahn@samsung.com>
  1 file changed, 23 insertions(+), 10 deletions(-)
 
 diff --git a/meson.build b/meson.build
-index 91e5e6d..eb035bb 100644
+index 962ca89..790edec 100644
 --- a/meson.build
 +++ b/meson.build
 @@ -94,11 +94,7 @@ endif
@@ -28,7 +28,7 @@ index 91e5e6d..eb035bb 100644
  endif
  
  if get_option('use_gym')
-@@ -116,19 +112,36 @@ endif
+@@ -116,14 +112,31 @@ endif
  libm_dep = cxx.find_library('m') # cmath library
  libdl_dep = cxx.find_library('dl') # DL library
  thread_dep = dependency('threads') # pthread for tensorflow-lite
@@ -61,6 +61,10 @@ index 91e5e6d..eb035bb 100644
 +  else
 +      error('Failed to resolve dependency on iniparser')
    endif
+ endif
+ 
+@@ -137,8 +150,8 @@ if get_option('enable-tflite-backbone')
+   add_project_arguments('-DENABLE_TFLITE_BACKBONE=1', language:['c','cpp'])
  endif
  
 -jsoncpp_dep = dependency('jsoncpp') # jsoncpp
