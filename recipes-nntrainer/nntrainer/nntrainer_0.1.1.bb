@@ -38,6 +38,8 @@ EXTRA_OEMESON += "\
     -Denable-logging=true \
     -Denable-tizen-feature-check=true \
     -Denable-nnstreamer-tensor-filter=false \
+    -Denable-nnstreamer-backbone=false \
+    -Denable-tflite-backbone=false \
     --bindir=${libdir}/${PN}/bin \
 "
 
