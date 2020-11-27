@@ -14,15 +14,15 @@ MD5SUM_GTEST = "16877098823401d1bf2ed7891d7dce36"
 SHA256SUM_GTEST = "58a6f4277ca2bc8565222b3bbd58a177609e9c488e8a72649359ba51450db7d8"
 MD5SUM_ABSLCPP = "7c9945f256d3733a8eade255afcbd072"
 SHA256SUM_ABSLCPP = "7dd09690ae7ca4551de3111d4a86b75b23ec17445f273d3c42bdcdc1c7b02e4e"
-MD5SUM_NEON2SSE = "fb718cd01e061aaef052d00f1ce5db89"
-SHA256SUM_NEON2SSE = "f09687a87103807c09ce3ff803cff3b3cccddd5f184c1c453375d6ce186d6af7"
+MD5SUM_NEON2SSE = "e08e9cf66876ca0acb5c9896f4c967b9"
+SHA256SUM_NEON2SSE = "ea951915d21a2468f74be284fddc897facfa0279fed7cceb7b218d61edc75079"
 MD5SUM_FLATBUFFER = "3811552512049fac3af419130904bc55"
 SHA256SUM_FLATBUFFER = "b2bb0311ca40b12ebe36671bdda350b10c7728caf0cfe2d432ea3b6e409016f3"
 MD5SUM_FFT = "4255dd8a74949d123216b1ab91520469"
 SHA256SUM_FFT = "52bb637c70b971958ec79c9c8752b1df5ff0218a4db4510e60826e0cb79b5296"
 
 SRC_URI = "git://github.com/tensorflow/tensorflow.git;branch=r1.12;protocol=https \
-    https://bitbucket.org/eigen/eigen/get/fd6845384b86.tar.gz;md5sum=${MD5SUM_EIGEN};sha256sum=${SHA256SUM_EIGEN} \
+    https://mirror.bazel.build/bitbucket.org/eigen/eigen/get/fd6845384b86.tar.gz;md5sum=${MD5SUM_EIGEN};sha256sum=${SHA256SUM_EIGEN} \
     https://mirror.bazel.build/github.com/google/gemmlowp/archive/38ebac7b059e84692f53e5938f97a9943c120d98.zip;md5sum=${MD5SUM_GEMMLOWP};sha256sum=${SHA256SUM_GEMMLOWP} \
     https://github.com/google/googletest/archive/release-1.8.0.tar.gz;md5sum=${MD5SUM_GTEST};sha256sum=${SHA256SUM_GTEST} \
     https://github.com/abseil/abseil-cpp/archive/48cd2c3f351ff188bc85684b84a91b6e6d17d896.tar.gz;md5sum=${MD5SUM_ABSLCPP};sha256sum=${SHA256SUM_ABSLCPP} \
