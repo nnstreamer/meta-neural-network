@@ -20,6 +20,7 @@ class NNStreamerTest(OERuntimeTestCase):
         self.assertEqual(status, 0, msg=msg)
 
         cmd = 'export LD_LIBRARY_PATH=/usr/lib/gstreamer-1.0:$LD_LIBRARY_PATH; ' \
+        'export NNSTREAMER_SOURCE_ROOT_PATH=/usr/lib/nnstreamer/unittest;' \
         '/usr/lib/nnstreamer/unittest/unittest_plugins --gst-plugin-path=/usr/lib/gstreamer-1.0'
         (status, output) = self.target.run(cmd)
         msg = " NNSTREAMER UNITTEST FAILED ( unittest_plugins ): %s" % output
@@ -31,14 +32,15 @@ class NNStreamerTest(OERuntimeTestCase):
         msg = " NNSTREAMER UNITTEST FAILED ( unittest_src_iio ): %s" % output
         self.assertEqual(status, 0, msg=msg)
 
-        cmd = 'export UNITTEST_DIR=/usr/lib/nnstreamer/unittest; '\
-              'export CUSTOMLIB_DIR=/usr/lib/nnstreamer/customfilters; '\
-              'export LD_LIBRARY_PATH=/usr/lib/gstreamer-1.0:$LD_LIBRARY_PATH; ' \
-              'alias python=pyton3; '\
-              'cd ${UNITTEST_DIR}/tests; '\
-              'ssat'
-        (status, output) = self.target.run(cmd)
-        if output.find('FAILED'):
-            status = 0
-        msg = " NNSTREAMER UNITTEST FAILED ( unittest_sink ): %s" % output
-        self.assertEqual(status, 0, msg=msg)
+        # You may not want to do SSAT test. It takes VERY LONG TIME to be done.
+        # cmd = 'export UNITTEST_DIR=/usr/lib/nnstreamer/unittest; '\
+        #       'export CUSTOMLIB_DIR=/usr/lib/nnstreamer/customfilters; '\
+        #       'export LD_LIBRARY_PATH=/usr/lib/gstreamer-1.0:$LD_LIBRARY_PATH; ' \
+        #       'ln -s /usr/bin/python3 /usr/bin/python; '\
+        #       'cd ${UNITTEST_DIR}/tests; '\
+        #       'ssat'
+        # (status, output) = self.target.run(cmd)
+        # if not output.find('FAILED'):
+        #     status = 0
+        # msg = " NNSTREAMER UNITTEST FAILED ( SSAT ): %s" % output
+        # self.assertEqual(status, 0, msg=msg)
