@@ -67,16 +67,16 @@ FILES_${PN}-unittest += "\
 
 FILES_${PN}-tensorflow-lite += "\
                                 ${@bb.utils.contains('DISTRO_FEATURES','tensorflow-lite', \
-                                    '${libdir}/nnstreamer/filters/libnnstreamer_filter_tensorflow-lite.so', \
+                                    '${libdir}/nnstreamer/filters/libnnstreamer_filter_tensorflow1-lite.so', \
                                     '', d)} \
                                 "
-RPROVIDES_${PN}-tensorflow-lite = "${libdir}/nnstreamer/filters/libnnstreamer_filter_tensorflow-lite.so"
+RPROVIDES_${PN}-tensorflow-lite = "${libdir}/nnstreamer/filters/libnnstreamer_filter_tensorflow1-lite.so"
 
 RDEPENDS_${PN}-unittest = "nnstreamer gstreamer1.0-plugins-good ssat"
 RDEPENDS_${PN}-unittest += "\
                             ${@bb.utils.contains( \
                                 'DISTRO_FEATURES','tensorflow-lite', \
-                                '${libdir}/nnstreamer/filters/libnnstreamer_filter_tensorflow-lite.so', \
+                                '${libdir}/nnstreamer/filters/libnnstreamer_filter_tensorflow1-lite.so', \
                                 '', d)} \
                             "
 
