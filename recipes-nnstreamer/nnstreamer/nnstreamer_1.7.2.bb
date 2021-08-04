@@ -21,10 +21,9 @@ DEPENDS += "\
         "
 SRC_URI = "\
         git://github.com/nnstreamer/nnstreamer.git;branch=main;protocol=https \
-        file://0001-Disable-flatbuf-check-for-tf-lite-for-yocto-build.patch \
         "
 
-PV = "1.7.0+git${SRCPV}"
+PV = "1.7.2+git${SRCPV}"
 SRCREV = "${AUTOREV}"
 
 S = "${WORKDIR}/git"
@@ -34,6 +33,7 @@ inherit meson pkgconfig
 EXTRA_OEMESON += "\
                 -Denable-test=true \
                 -Dinstall-test=true \
+                -Dskip-tflite-flatbuf-check=true \
                 "
 
 PACKAGECONFIG ??= "\
