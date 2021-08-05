@@ -34,6 +34,7 @@ EXTRA_OEMESON += "\
                 -Denable-test=true \
                 -Dinstall-test=true \
                 -Dskip-tflite-flatbuf-check=true \
+                -Denable-pbtxt-converter=false \
                 "
 
 PACKAGECONFIG ??= "\
@@ -42,7 +43,7 @@ PACKAGECONFIG ??= "\
                 "
 
 do_install_append() {
-    (cd ${D}/${libdir}; ln -s ./gstreamer-1.0/libnnstreamer.so)
+   rm ${D}/${bindir}/unittest-nnstreamer/tests/test_models/models/tvm*
 }
 INSANE_SKIP_${PN} += "dev-so"
 
@@ -62,7 +63,7 @@ PACKAGES =+ "\
 
 FILES_${PN}-unittest += "\
                     ${libdir}/nnstreamer/customfilters/* \
-                    ${libdir}/nnstreamer/unittest/* \
+                    ${bindir}/unittest-nnstreamer/* \
                     "
 
 FILES_${PN}-tensorflow-lite += "\
