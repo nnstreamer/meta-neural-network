@@ -10,7 +10,6 @@ LIC_FILES_CHKSUM = "\
 
 SRC_URI = "\
     git://github.com/nnstreamer/nntrainer;branch=main;protocol=https \
-    file://0001-Patch-for-yocto-build.patch \
 "
 
 DEPENDS = "\
@@ -19,7 +18,7 @@ DEPENDS = "\
     gtest \
 "
 
-PV = "0.1.1+git${SRCPV}"
+PV = "0.2.0+git${SRCPV}"
 SRCREV = "${AUTOREV}"
 
 S = "${WORKDIR}/git"
@@ -27,7 +26,7 @@ S = "${WORKDIR}/git"
 inherit meson pkgconfig
 
 EXTRA_OEMESON += "\
-    -Denable-tizen=false \
+    -Dplatform=yocto \
     -Denable-blas=true \
     -Denable-cublas=false \
     -Denable-app=false \
