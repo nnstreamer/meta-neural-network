@@ -10,16 +10,16 @@ LIC_FILES_CHKSUM = "\
 
 SRC_URI = "\
     git://github.com/nnstreamer/nntrainer;branch=main;protocol=https \
-    file://0001-Patch-for-yocto-build.patch \
 "
 
 DEPENDS = "\
     iniparser \
     openblas \
     gtest \
+    ml-api \
 "
 
-PV = "0.1.1+git${SRCPV}"
+PV = "0.2.0+git${SRCPV}"
 SRCREV = "${AUTOREV}"
 
 S = "${WORKDIR}/git"
@@ -27,27 +27,22 @@ S = "${WORKDIR}/git"
 inherit meson pkgconfig
 
 EXTRA_OEMESON += "\
-    -Denable-tizen=false \
+    -Dplatform=yocto \
     -Denable-blas=true \
     -Denable-cublas=false \
     -Denable-app=false \
     -Dinstall-app=false \
     -Duse_gym=false \
     -Denable-capi=true \
-    -Denable-test=true \
+    -Denable-test=false \
     -Denable-logging=true \
     -Denable-tizen-feature-check=true \
     -Denable-nnstreamer-tensor-filter=false \
     -Denable-nnstreamer-backbone=false \
     -Denable-tflite-backbone=false \
+    -Denable-tflite-interpreter=false \
     --bindir=${libdir}/${PN}/bin \
 "
-
-do_install_append() {
-    install -m 0644 ${WORKDIR}/build/*.dat ${D}${libdir}/${PN}/bin/applications/
-    install -m 0644 ${WORKDIR}/build/*.in ${D}${libdir}/${PN}/bin/applications/
-    install -m 0644 ${WORKDIR}/build/*.out ${D}${libdir}/${PN}/bin/applications/
-}
 
 INSANE_SKIP_${PN} += "staticdev"
 
@@ -57,6 +52,7 @@ PACKAGES += "\
 
 FILES_${PN} += "\
     ${libdir}/*.so \
+    ${sysconfdir}/nntrainer.ini \
 "
 
 FILES_${PN}-unittest += "\
