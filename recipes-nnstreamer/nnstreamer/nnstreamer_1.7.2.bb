@@ -3,7 +3,7 @@ DESCRIPTION = "NNStreamer is a GStreamer plugin allowing to construct neural net
 SECTION = "AI"
 LICENSE = "LGPLv2.1"
 LIC_FILES_CHKSUM = "\
-                file://LICENSE;md5=a6f89e2100d9b6cdffcea4f398e37343 \
+                file://LICENSE;md5=c25e5c1949624d71896127788f1ba590 \
                 file://debian/copyright;md5=0462ef8fa89a1f53f2e65e74940519ef \
                 "
 
