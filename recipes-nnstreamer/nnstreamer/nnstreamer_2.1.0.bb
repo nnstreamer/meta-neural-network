@@ -23,7 +23,7 @@ SRC_URI = "\
         git://github.com/nnstreamer/nnstreamer.git;branch=main;protocol=https \
         "
 
-PV = "1.7.2+git${SRCPV}"
+PV = "2.1.0+git${SRCPV}"
 SRCREV = "${AUTOREV}"
 
 S = "${WORKDIR}/git"
