@@ -43,7 +43,7 @@ PACKAGECONFIG ??= "\
                 "
 
 do_install_append() {
-   rm ${D}/${bindir}/unittest-nnstreamer/tests/test_models/models/tvm*
+   rm -f ${D}/${bindir}/unittest-nnstreamer/tests/test_models/models/tvm*
    cd ${D}/${libdir}
    ln -sf ./gstreamer-1.0/libnnstreamer.so ./libnnstreamer.so
 }
