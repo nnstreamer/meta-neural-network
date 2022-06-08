@@ -42,14 +42,14 @@ PACKAGECONFIG ??= "\
                 ${@bb.utils.contains('DISTRO_FEATURES','tensorflow','tensorflow','',d)} \
                 "
 
-do_install_append() {
+do_install:append() {
    rm -f ${D}/${bindir}/unittest-nnstreamer/tests/test_models/models/tvm*
    cd ${D}/${libdir}
    ln -sf ./gstreamer-1.0/libnnstreamer.so ./libnnstreamer.so
 }
-INSANE_SKIP_${PN} += "dev-so"
+INSANE_SKIP:${PN} += "dev-so"
 
-FILES_${PN} += "\
+FILES:${PN} += "\
             ${libdir}/*.so \
             ${libdir}/gstreamer-1.0/*.so \
             ${libdir}/nnstreamer/decoders/* \
@@ -63,27 +63,27 @@ PACKAGES =+ "\
                     '', d)} \
             "
 
-FILES_${PN}-unittest += "\
+FILES:${PN}-unittest += "\
                     ${libdir}/nnstreamer/customfilters/* \
                     ${bindir}/unittest-nnstreamer/* \
                     "
 
-FILES_${PN}-tensorflow-lite += "\
+FILES:${PN}-tensorflow-lite += "\
                                 ${@bb.utils.contains('DISTRO_FEATURES','tensorflow-lite', \
                                     '${libdir}/nnstreamer/filters/libnnstreamer_filter_tensorflow2-lite.so', \
                                     '', d)} \
                                 "
-RPROVIDES_${PN}-tensorflow-lite = "${libdir}/nnstreamer/filters/libnnstreamer_filter_tensorflow2-lite.so"
+RPROVIDES:${PN}-tensorflow-lite = "${libdir}/nnstreamer/filters/libnnstreamer_filter_tensorflow2-lite.so"
 
-RDEPENDS_${PN}-unittest = "nnstreamer gstreamer1.0-plugins-good ssat"
-RDEPENDS_${PN}-unittest += "\
+RDEPENDS:${PN}-unittest = "nnstreamer gstreamer1.0-plugins-good ssat"
+RDEPENDS:${PN}-unittest += "\
                             ${@bb.utils.contains( \
                                 'DISTRO_FEATURES','tensorflow-lite', \
                                 '${libdir}/nnstreamer/filters/libnnstreamer_filter_tensorflow2-lite.so', \
                                 '', d)} \
                             "
 
-RDEPENDS_${PN} = "\
+RDEPENDS:${PN} = "\
                 glib-2.0 \
                 gstreamer1.0 \
                 gstreamer1.0-plugins-base \
@@ -92,7 +92,7 @@ RDEPENDS_${PN} = "\
                 python3-math \
                 "
 
-FILES_${PN}-dev = "\
+FILES:${PN}-dev = "\
                 ${includedir}/nnstreamer/* \
                 ${libdir}/*.a \
                 ${libdir}/pkgconfig/*.pc \
