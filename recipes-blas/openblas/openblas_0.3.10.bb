@@ -47,5 +47,5 @@ do_install() {
     rm -rf ${D}${bindir} ${D}${libdir}/cmake
 }
 
-FILES_${PN}-dev = "${includedir} ${libdir}/lib${PN}.so"
-FILES_${PN}     = "${libdir}/*"
+FILES:${PN}-dev = "${includedir} ${libdir}/lib${PN}.so"
+FILES:${PN}     = "${libdir}/*"

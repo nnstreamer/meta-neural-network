@@ -21,7 +21,7 @@ do_install () {
      ln -s ssat.sh ssat
 }
 
-sysroot_stage_all_append() {
+sysroot_stage_all:append() {
  install -d ${SYSROOT_DESTDIR}${bindir}
  install -p -m 0755 ${D}${bindir}/ssat.sh ${SYSROOT_DESTDIR}${bindir}
  install -p -m 0755 ${D}${bindir}/ssat-api.sh ${SYSROOT_DESTDIR}${bindir}
@@ -29,6 +29,6 @@ sysroot_stage_all_append() {
  ln -s ssat.sh ssat
 }
 
-FILES_${PN} += "${bindir}/ssat \
+FILES:${PN} += "${bindir}/ssat \
 	    ${bindir}/ssat.sh \
 	    ${bindir}/ssat-api.sh"

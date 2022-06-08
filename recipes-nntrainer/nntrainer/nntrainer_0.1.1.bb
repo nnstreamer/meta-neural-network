@@ -44,26 +44,26 @@ EXTRA_OEMESON += "\
     --bindir=${libdir}/${PN}/bin \
 "
 
-INSANE_SKIP_${PN} += "staticdev"
+INSANE_SKIP:${PN} += "staticdev"
 
 PACKAGES += "\
     ${PN}-unittest \
 "
 
-FILES_${PN} += "\
+FILES:${PN} += "\
     ${libdir}/*.so \
     ${sysconfdir}/nntrainer.ini \
 "
 
-FILES_${PN}-unittest += "\
+FILES:${PN}-unittest += "\
     ${bindir}/applications/unittest* \
 "
 
-FILES_${PN}-dev = "\
+FILES:${PN}-dev = "\
     ${includedir}/nntrainer/* \
     ${libdir}/*.a \
     ${bindir}/applications/libapp_utils.a \
     ${libdir}/pkgconfig/*.pc \
 "
 
-RDEPENDS_${PN}-unittest = "nntrainer"
+RDEPENDS:${PN}-unittest = "nntrainer"

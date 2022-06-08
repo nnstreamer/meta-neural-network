@@ -33,14 +33,14 @@ SRC_URI = " \
 S = "${WORKDIR}/git"
 
 DEPENDS = "zlib"
-TARGET_CFLAGS_remove = "-O2"
-TARGET_CPPLAGS_remove = "-O2"
-TARGET_CXXLAGS_remove = "-O2"
-CCFLAGS_append = " -O3 -DNDEBUG -fPIC -DGEMMLOWP_ALLOW_SLOW_SCALAR_FALLBACK -DTFLITE_WITH_RUY -DTFLITE_WITHOUT_XNNPACK -DBUILD_WITH_NNAPI=false \
+TARGET_CFLAGS:remove = "-O2"
+TARGET_CPPLAGS:remove = "-O2"
+TARGET_CXXLAGS:remove = "-O2"
+CCFLAGS:append = " -O3 -DNDEBUG -fPIC -DGEMMLOWP_ALLOW_SLOW_SCALAR_FALLBACK -DTFLITE_WITH_RUY -DTFLITE_WITHOUT_XNNPACK -DBUILD_WITH_NNAPI=false \
     -I${STAGING_INCDIR}"
-CXXFLAGS_append = " -O3 -DNDEBUG -fPIC -DGEMMLOWP_ALLOW_SLOW_SCALAR_FALLBACK -DTFLITE_WITH_RUY -DTFLITE_WITHOUT_XNNPACK -DBUILD_WITH_NNAPI=false \
+CXXFLAGS:append = " -O3 -DNDEBUG -fPIC -DGEMMLOWP_ALLOW_SLOW_SCALAR_FALLBACK -DTFLITE_WITH_RUY -DTFLITE_WITHOUT_XNNPACK -DBUILD_WITH_NNAPI=false \
     -I${STAGING_INCDIR}"
-LDFLAGS_remove = "-Wl,-O1"
+LDFLAGS:remove = "-Wl,-O1"
 LIBS = "-lstdc++ -lpthread -lm -lz -ldl -lrt"
 BUILD_DEPS_DOWNLOAD_DIR_PREFIX = "${S}/tensorflow/lite/tools/make/downloads/"
 
@@ -115,4 +115,4 @@ do_install() {
     install -m 0644 ${S}/tensorflow/lite/tools/make/downloads/flatbuffers/include/flatbuffers/*.h ${D}${includedir}/flatbuffers/
 }
 
-ALLOW_EMPTY_${PN} = "1"
+ALLOW_EMPTY:${PN} = "1"

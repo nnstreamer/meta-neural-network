@@ -4,9 +4,12 @@ HOMEPAGE = "https://www.tensorflow.org/lite"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=4158a261ca7f2525513e31ba9c50ae98"
 
+# PV = "2.9.1"
+SRCREV = "d8ce9f9c301d021a69953134185ab728c1c248d3"
+
 DEPENDS = "zlib libgfortran"
 SRC_URI = " \
-    git://github.com/tensorflow/tensorflow;destsuffix=git/;branch=r2.9;rev=v2.9.1;protocol=https \
+    git://github.com/tensorflow/tensorflow.git;branch=r2.9;rev=${SRCREV};protocol=https \
     file://fix-to-cmake-2.9.1.patch \
     file://tensorflow2-lite.pc.in \
 "
@@ -18,6 +21,10 @@ S = "${WORKDIR}/git"
 EXTRA_OECMAKE = "\
     ${S}/tensorflow/lite/ \
 "
+EXTRA_OECMAKE:append = "-DFETCHCONTENT_FULLY_DISCONNECTED=OFF"
+
+do_configure[network] =  "1"
+do_compile[network] = "1"
 
 do_install() {
     # install libraries
@@ -46,4 +53,4 @@ do_install() {
     install -m 0644 ${B}/flatbuffers/include/flatbuffers/*.h ${D}${includedir}/flatbuffers/
 }
 
-ALLOW_EMPTY_${PN} = "1"
+ALLOW_EMPTY:${PN} = "1"
