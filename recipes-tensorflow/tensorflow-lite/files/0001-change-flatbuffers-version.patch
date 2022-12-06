@@ -1,0 +1,27 @@
+From e631075b622f92cf8cb219c068a054020b60327f Mon Sep 17 00:00:00 2001
+From: Yongjoo Ahn <yongjoo1.ahn@samsung.com>
+Date: Tue, 6 Dec 2022 13:48:46 +0900
+Subject: [PATCH] change flatbuffers version
+
+Change-Id: Ia54e5b9d6b783a46aedc60c04415847e3800dc75
+Signed-off-by: Yongjoo Ahn <yongjoo1.ahn@samsung.com>
+---
+ tensorflow/lite/tools/cmake/modules/flatbuffers.cmake | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git tensorflow/lite/tools/cmake/modules/flatbuffers.cmake tensorflow/lite/tools/cmake/modules/flatbuffers.cmake
+index 54b413f69ac..c09537f8b21 100644
+--- a/tensorflow/lite/tools/cmake/modules/flatbuffers.cmake
++++ b/tensorflow/lite/tools/cmake/modules/flatbuffers.cmake
+@@ -23,7 +23,7 @@ OverridableFetchContent_Declare(
+   flatbuffers
+   GIT_REPOSITORY https://github.com/google/flatbuffers
+   # Sync with tensorflow/third_party/flatbuffers/workspace.bzl
+-  GIT_TAG v2.0.6
++  GIT_TAG v22.11.23
+   GIT_SHALLOW TRUE
+   GIT_PROGRESS TRUE
+   SOURCE_DIR "${CMAKE_BINARY_DIR}/flatbuffers"
+-- 
+2.17.1
+

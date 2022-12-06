@@ -1,0 +1,127 @@
+From 20a40c1f6aed4adba43af4b2a5b83a9a555f33ed Mon Sep 17 00:00:00 2001
+From: Yongjoo Ahn <yongjoo1.ahn@samsung.com>
+Date: Fri, 2 Dec 2022 15:24:57 +0900
+Subject: [PATCH] [build] Add bundle static lib script in CMakeLists.txt
+
+- Modify cmake build scripts to build "whole-bundled" static library
+
+Change-Id: Icb823d8cf3b1727c2513404a038a3c6cc1166ffb
+Signed-off-by: Yongjoo Ahn <yongjoo1.ahn@samsung.com>
+---
+ tensorflow/lite/CMakeLists.txt | 100 +++++++++++++++++++++++++++++++++
+ 1 file changed, 100 insertions(+)
+
+diff --git tensorflow/lite/CMakeLists.txt tensorflow/lite/CMakeLists.txt
+index 073b29c4860..632862cccb2 100644
+--- a/tensorflow/lite/CMakeLists.txt
++++ b/tensorflow/lite/CMakeLists.txt
+@@ -535,6 +535,106 @@ target_link_libraries(tensorflow-lite
+     ${TFLITE_TARGET_DEPENDENCIES}
+ )
+ 
++# The libtensorflow-lite.a isn't self-contained since all the transitive dependencies are not included.
++# Let libtensorflow-lite-bundled.a contains all the deps.
++# The bundling snippet is from https://cristianadam.eu/20190501/bundling-together-static-libraries-with-cmake/
++function(bundle_static_library tgt_name bundled_tgt_name)
++  list(APPEND static_libs ${tgt_name})
++
++  function(_recursively_collect_dependencies input_target)
++    set(_input_link_libraries LINK_LIBRARIES)
++    get_target_property(_input_type ${input_target} TYPE)
++    if (${_input_type} STREQUAL "INTERFACE_LIBRARY")
++      set(_input_link_libraries INTERFACE_LINK_LIBRARIES)
++    endif()
++    get_target_property(public_dependencies ${input_target} ${_input_link_libraries})
++    foreach(dependency IN LISTS public_dependencies)
++      if(TARGET ${dependency})
++        get_target_property(alias ${dependency} ALIASED_TARGET)
++        if (TARGET ${alias})
++          set(dependency ${alias})
++        endif()
++        get_target_property(_type ${dependency} TYPE)
++        if (${_type} STREQUAL "STATIC_LIBRARY")
++          list(APPEND static_libs ${dependency})
++        endif()
++
++        get_property(library_already_added
++          GLOBAL PROPERTY _${tgt_name}_static_bundle_${dependency})
++        if (NOT library_already_added)
++          set_property(GLOBAL PROPERTY _${tgt_name}_static_bundle_${dependency} ON)
++          _recursively_collect_dependencies(${dependency})
++        endif()
++      endif()
++    endforeach()
++    set(static_libs ${static_libs} PARENT_SCOPE)
++  endfunction()
++
++  _recursively_collect_dependencies(${tgt_name})
++
++  list(REMOVE_DUPLICATES static_libs)
++
++  set(bundled_tgt_full_name
++    ${CMAKE_BINARY_DIR}/${CMAKE_STATIC_LIBRARY_PREFIX}${bundled_tgt_name}${CMAKE_STATIC_LIBRARY_SUFFIX})
++
++  if (CMAKE_CXX_COMPILER_ID MATCHES "^(Clang|GNU)$")
++    file(WRITE ${CMAKE_BINARY_DIR}/${bundled_tgt_name}.ar.in
++      "CREATE ${bundled_tgt_full_name}\n" )
++
++    foreach(tgt IN LISTS static_libs)
++      file(APPEND ${CMAKE_BINARY_DIR}/${bundled_tgt_name}.ar.in
++        "ADDLIB $<TARGET_FILE:${tgt}>\n")
++    endforeach()
++
++    file(APPEND ${CMAKE_BINARY_DIR}/${bundled_tgt_name}.ar.in "SAVE\n")
++    file(APPEND ${CMAKE_BINARY_DIR}/${bundled_tgt_name}.ar.in "END\n")
++
++    file(GENERATE
++      OUTPUT ${CMAKE_BINARY_DIR}/${bundled_tgt_name}.ar
++      INPUT ${CMAKE_BINARY_DIR}/${bundled_tgt_name}.ar.in)
++
++    set(ar_tool ${CMAKE_AR})
++    if (CMAKE_INTERPROCEDURAL_OPTIMIZATION)
++      set(ar_tool ${CMAKE_CXX_COMPILER_AR})
++    endif()
++
++    add_custom_command(
++      COMMAND ${ar_tool} -M < ${CMAKE_BINARY_DIR}/${bundled_tgt_name}.ar
++      OUTPUT ${bundled_tgt_full_name}
++      COMMENT "Bundling ${bundled_tgt_name}"
++      VERBATIM)
++  elseif(MSVC)
++    find_program(lib_tool lib)
++
++    foreach(tgt IN LISTS static_libs)
++      list(APPEND static_libs_full_names $<TARGET_FILE:${tgt}>)
++    endforeach()
++
++    add_custom_command(
++      COMMAND ${lib_tool} /NOLOGO /OUT:${bundled_tgt_full_name} ${static_libs_full_names}
++      OUTPUT ${bundled_tgt_full_name}
++      COMMENT "Bundling ${bundled_tgt_name}"
++      VERBATIM)
++  else()
++    message(FATAL_ERROR "Unknown bundle scenario!")
++  endif()
++
++  add_custom_target(bundling_target ALL DEPENDS ${bundled_tgt_full_name})
++  add_dependencies(bundling_target ${tgt_name})
++
++  add_library(${bundled_tgt_name} STATIC IMPORTED)
++  set_target_properties(${bundled_tgt_name}
++    PROPERTIES
++      IMPORTED_LOCATION ${bundled_tgt_full_name}
++      INTERFACE_INCLUDE_DIRECTORIES $<TARGET_PROPERTY:${tgt_name},INTERFACE_INCLUDE_DIRECTORIES>)
++  add_dependencies(${bundled_tgt_name} bundling_target)
++
++endfunction()
++
++if (NOT TFLITE_BUILD_SHARED_LIB)
++  bundle_static_library(tensorflow-lite tensorflow-lite-bundled)
++endif()
++
+ if (NOT BUILD_SHARED_LIBS)
+   list(APPEND TFLITE_TARGET_PUBLIC_OPTIONS "-DTFL_STATIC_LIBRARY_BUILD")
+ endif()
+-- 
+2.17.1
+

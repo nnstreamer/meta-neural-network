@@ -1,0 +1,84 @@
+From f69824543f2089c4a9fea285af21fdf9b9062539 Mon Sep 17 00:00:00 2001
+From: Yongjoo Ahn <yongjoo1.ahn@samsung.com>
+Date: Fri, 2 Dec 2022 15:25:46 +0900
+Subject: [PATCH] [build] Remove -mcpu flag when build XNNPACK
+
+- XNNPACK set its own build flags and -mcpu flags from upper build may
+  cause build failure. So remove those flags when build XNNPACK.
+
+Change-Id: I9c0fd5a8dfa87d94723c857d2557519a4feed75f
+Signed-off-by: Yongjoo Ahn <yongjoo1.ahn@samsung.com>
+---
+ tensorflow/lite/tools/cmake/modules/xnnpack.cmake    | 14 ++++----
+ tensorflow/lite/tools/cmake/modules/xnnpack/CMakeLists.txt      | 34 +++++++++++++++++++
+ 2 files changed, 42 insertions(+), 6 deletions(-)
+ create mode 100644 tensorflow/lite/tools/cmake/modules/xnnpack/CMakeLists.txt
+
+diff --git tensorflow/lite/tools/cmake/modules/xnnpack.cmake tensorflow/lite/tools/cmake/modules/xnnpack.cmake
+index 3b5e70a9d1d..62327f4089c 100644
+--- a/tensorflow/lite/tools/cmake/modules/xnnpack.cmake
++++ b/tensorflow/lite/tools/cmake/modules/xnnpack.cmake
+@@ -41,12 +41,14 @@ endif()
+ set(XNNPACK_BUILD_TESTS OFF CACHE BOOL "Disable XNNPACK test.")
+ set(XNNPACK_BUILD_BENCHMARKS OFF CACHE BOOL "Disable XNNPACK benchmarks.")
+ 
+-# The following line adds project of PTHREADPOOL, FP16 and XNNPACK which are
+-# needed to compile XNNPACK delegate of TFLite.
+-add_subdirectory(
+-  "${xnnpack_SOURCE_DIR}"
+-  "${xnnpack_BINARY_DIR}"
+-)
++# # The following line adds project of PTHREADPOOL, FP16 and XNNPACK which are
++# # needed to compile XNNPACK delegate of TFLite.
++# add_subdirectory(
++#   "${xnnpack_SOURCE_DIR}"
++#   "${xnnpack_BINARY_DIR}"
++# )
++
++add_subdirectory(${TFLITE_SOURCE_DIR}/tools/cmake/modules/xnnpack)
+ 
+ include_directories(
+   AFTER
+diff --git tensorflow/lite/tools/cmake/modules/xnnpack/CMakeLists.txt tensorflow/lite/tools/cmake/modules/xnnpack/CMakeLists.txt
+new file mode 100644
+index 00000000000..dc987a34a4f
+--- /dev/null
++++ b/tensorflow/lite/tools/cmake/modules/xnnpack/CMakeLists.txt
+@@ -0,0 +1,34 @@
++#
++# Copyright 2022 The TensorFlow Authors. All Rights Reserved.
++#
++# Licensed under the Apache License, Version 2.0 (the "License");
++# you may not use this file except in compliance with the License.
++# You may obtain a copy of the License at
++#
++#      https://www.apache.org/licenses/LICENSE-2.0
++#
++# Unless required by applicable law or agreed to in writing, software
++# distributed under the License is distributed on an "AS IS" BASIS,
++# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++# See the License for the specific language governing permissions and
++# limitations under the License.
++
++# The "-mcpu=" switch might be introduced externaly into CMake: either in <LANG>_FLAGS or
++# as part of CC, CXX, ASM environmental variables (to be stored in CMAKE_<LANG>_COMPILER_ARG1).
++# This switch is not compatible with XNNPACK build mechanism and causes the XNNPACK compilation
++# break due to "unsupported instructions". This switch needs to be removed for XNNPACK
++# In order to isolate the changes only for XNNPACK and its depencencies, a subfolder is
++# introduced.
++
++foreach(FLAG IN ITEMS CMAKE_ASM_FLAGS CMAKE_ASM_COMPILER_ARG1 CMAKE_C_FLAGS CMAKE_C_COMPILER_ARG1 CMAKE_CXX_FLAGS CMAKE_CXX_COMPILER_ARG1)
++  if(${FLAG})
++    string(REGEX REPLACE "-mcpu=[-a-zA-Z0-9_.^$*+?]*" "" _tmp ${${FLAG}})
++    set(${FLAG} ${_tmp})
++  endif()
++endforeach()
++
++add_subdirectory(
++  "${xnnpack_SOURCE_DIR}"
++  "${xnnpack_BINARY_DIR}"
++  EXCLUDE_FROM_ALL
++)
+-- 
+2.17.1
+
