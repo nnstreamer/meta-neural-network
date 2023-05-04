@@ -15,6 +15,7 @@ DEPENDS = "\
             python3 \
             python3-numpy \
             gtest \
+            json-glib \
             "
 DEPENDS += "\
         ${@bb.utils.contains('DISTRO_FEATURES','tensorflow-lite','tensorflow-lite','',d)} \
@@ -85,6 +86,7 @@ RDEPENDS:${PN}-unittest += "\
 
 RDEPENDS:${PN} = "\
                 glib-2.0 \
+                json-glib \
                 gstreamer1.0 \
                 gstreamer1.0-plugins-base \
                 python3 \
