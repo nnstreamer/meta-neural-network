@@ -13,7 +13,7 @@ SRC_URI = " \
     file://0001-change-flatbuffers-version.patch \
     file://0001-build-Add-bundle-static-lib-script-in-CMakeLists.txt.patch \
     file://0001-build-Remove-mcpu-flag-when-build-XNNPACK.patch \
-    file://tensorflow2-lite.pc.in \
+    file://tensorflow-lite.pc.in \
 "
 
 inherit cmake
@@ -31,9 +31,9 @@ do_compile[network] = "1"
 do_install() {
     # install libraries
     install -d ${D}${libdir}
-    install -m 0644 ${B}/libtensorflow-lite-bundled.a ${D}${libdir}/libtensorflow2-lite.a
+    install -m 0644 ${B}/libtensorflow-lite-bundled.a ${D}${libdir}/libtensorflow-lite.a
     install -d ${D}${libdir}/pkgconfig
-    install -m 0644 ${WORKDIR}/tensorflow2-lite.pc.in ${D}${libdir}/pkgconfig/tensorflow2-lite.pc
+    install -m 0644 ${WORKDIR}/tensorflow-lite.pc.in ${D}${libdir}/pkgconfig/tensorflow-lite.pc
 
     # install header files
     install -d ${D}${includedir}/tensorflow/lite
@@ -48,7 +48,7 @@ do_install() {
 
     sed -i 's:@version@:${PV}:g
         s:@libdir@:${libdir}:g
-        s:@includedir@:${includedir}:g' ${D}${libdir}/pkgconfig/tensorflow2-lite.pc
+        s:@includedir@:${includedir}:g' ${D}${libdir}/pkgconfig/tensorflow-lite.pc
 
     # flatbuffers
     install -d  ${D}${includedir}/flatbuffers
